@@ -123,19 +123,20 @@ Ctrl =
 
     gamepad = navigator.getGamepads()[0]
 
-    if gamepad.buttons[0].pressed and not Ctrl.fire
+    if gamepad.buttons[3].pressed and not Ctrl.fire
       Sound.laser.play()
       Ctrl.fire = true
       Laser.build Ship.x + (Ship.width / 2) - Laser.width, Ship.y - Laser.height, true
-    else if not gamepad.buttons[0].pressed and Ctrl.fire
+    else if not gamepad.buttons[3].pressed and Ctrl.fire
       Ctrl.fire = false
 
-    switch gamepad.axes[0]
-      when -1 then Ctrl.left = true
-      when 1 then Ctrl.right = true
-      else
-        Ctrl.left = false
-        Ctrl.right = false
+    if gamepad.buttons[14].pressed
+      Ctrl.left = true
+    else if gamepad.buttons[15].pressed
+      Ctrl.right = true
+    else
+      Ctrl.left = false
+      Ctrl.right = false
 
 Shield =
   x: 64
