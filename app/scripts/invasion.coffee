@@ -411,8 +411,8 @@ Enemy =
 
 Sound =
   init: ->
-    @enemyexplosion = new Audio('../sounds/enemyexplosion.wav')
-    @gameover = new Audio('../sounds/gameover.wav')
-    @gamestart = new Audio('../sounds/gamestart.wav')
-    @laser = new Audio('../sounds/laser.wav')
-    @playerexplosion = new Audio('../sounds/playerexplosion.wav')
+    @enemyexplosion = new Audio('/workorder-invasion/sounds/enemyexplosion.wav')
+    @gameover = new Audio('/workorder-invasion/sounds/gameover.wav')
+    @gamestart = new Audio('/workorder-invasion/sounds/gamestart.wav')
+    @laser = new Audio('/workorder-invasion/sounds/laser.wav')
+    @playerexplosion = new Audio('/workorder-invasion/sounds/playerexplosion.wav')
