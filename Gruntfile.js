@@ -409,6 +409,19 @@ module.exports = function (grunt) {
         configFile: 'test/karma.conf.coffee',
         singleRun: true
       }
+    },
+
+    buildcontrol: {
+      options: {
+        commit: true,
+        push: true
+      },
+      pages: {
+        options: {
+          remote: 'git@github.com:jjkiesch/workorder-invasion.git',
+          branch: 'gh-pages'
+        }
+      }
     }
   });
 
