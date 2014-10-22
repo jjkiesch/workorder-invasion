@@ -51,7 +51,6 @@ angular.module('workorderInvasionApp')
           .forEach (key) ->
             if key.substring(0, prefixLength) == prefix
               player = localStorage[key]
-              console.log player
               player = JSON.parse(player)
               if player.score
                 players.push(player)

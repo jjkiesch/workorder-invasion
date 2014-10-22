@@ -12,7 +12,7 @@ window.Game =
     Enemy.init()
     Sound.gamestart.play()
 
-    window.setInterval Game.update, 20
+    @updateHandler = window.setInterval Game.update, 20
 
   init: ->
     @welcome = document.getElementById 'welcomeScreen'
@@ -39,9 +39,14 @@ window.Game =
           @board.removeChild el
 
   endGame: ->
+    Ctrl.cancelGamepad()
     Sound.gameover.play()
 
     window.clearInterval Enemy.timer
+    window.removeEventListener 'keydown', Ctrl.keyDown, true
+    window.removeEventListener 'keyup', Ctrl.keyUp, true
+
+    window.clearInterval @updateHandler
 
     el = angular.element('#invasion')
     $scope = el.scope()
@@ -95,9 +100,12 @@ Ship =
 
 Ctrl =
   init: ->
+    @left = false
+    @right = false
     window.addEventListener 'keydown', @keyDown, true
     window.addEventListener 'keyup', @keyUp, true
-    window.requestAnimationFrame Ctrl.updateGamepad
+    window.cancelAnimationFrame @lastFrame if @lastFrame
+    @lastFrame = window.requestAnimationFrame Ctrl.updateGamepad
 
   keyDown: (event) ->
     switch event.keyCode
@@ -119,32 +127,35 @@ Ctrl =
         Ctrl.left = false
 
   updateGamepad: ->
-    window.requestAnimationFrame Ctrl.updateGamepad
+    Ctrl.id = window.requestAnimationFrame Ctrl.updateGamepad
 
     gamepad = navigator.getGamepads()[0]
+    unless gamepad is undefined
+      if gamepad.buttons[3].pressed and not Ctrl.fire
+        Sound.laser.play()
+        Ctrl.fire = true
+        Laser.build Ship.x + (Ship.width / 2) - Laser.width, Ship.y - Laser.height, true
+      else if not gamepad.buttons[3].pressed and Ctrl.fire
+        Ctrl.fire = false
 
-    if gamepad.buttons[3].pressed and not Ctrl.fire
-      Sound.laser.play()
-      Ctrl.fire = true
-      Laser.build Ship.x + (Ship.width / 2) - Laser.width, Ship.y - Laser.height, true
-    else if not gamepad.buttons[3].pressed and Ctrl.fire
-      Ctrl.fire = false
+      if gamepad.buttons[14].pressed
+        Ctrl.left = true
+      else
+      if gamepad.buttons[15].pressed
+        Ctrl.right = true
+      else
+        Ctrl.left = false
+        Ctrl.right = false
 
-    if gamepad.buttons[14].pressed
-      Ctrl.left = true
-    else if gamepad.buttons[15].pressed
-      Ctrl.right = true
-    else
-      Ctrl.left = false
-      Ctrl.right = false
+  cancelGamepad: ->
+    window.cancelAnimationFrame(@id)
 
 Shield =
-  x: 64
-  y: 390
-  hp: 3
-  size: 15
-
   init: ->
+    @x = 64
+    @y = 390
+    @hp = 3
+    @size = 15
     for block in [3..0]
       for piece in [7..0]
         @build block, piece

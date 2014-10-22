@@ -9,7 +9,21 @@
 ###
 angular.module('workorderInvasionApp')
   .controller 'InvasionCtrl', ($scope, player, $location) ->
-    Game.init()
+    $scope.secondsTilStart = 5
+
+    $scope.gameReady = ->
+      if $scope.secondsTilStart == 0
+        true
+      else
+        false
+
+    countdownTimer = window.setInterval ->
+      $scope.$apply ->
+        $scope.secondsTilStart--
+      if $scope.secondsTilStart == 0
+        window.clearInterval countdownTimer
+        Game.init()
+    , 1000
 
     player.getPlayer()
 
