@@ -138,10 +138,10 @@ Ctrl =
       else if not gamepad.buttons[4].pressed and Ctrl.fire
         Ctrl.fire = false
 
-      if gamepad.buttons[14].pressed
-        Ctrl.left = true
-      else if gamepad.buttons[15].pressed
+      if gamepad.buttons[15].pressed
         Ctrl.right = true
+      else if gamepad.buttons[14].pressed
+        Ctrl.left = true
       else
         Ctrl.left = false
         Ctrl.right = false
