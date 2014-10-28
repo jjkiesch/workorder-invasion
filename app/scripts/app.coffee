@@ -31,6 +31,9 @@ angular
       .when '/start',
         templateUrl: 'views/start.html'
         controller: 'StartCtrl'
+      .when '/admin',
+        templateUrl: 'views/admin.html'
+        controller: 'AdminCtrl'
       .otherwise
         redirectTo: '/'
 
